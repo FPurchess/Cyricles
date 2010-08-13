@@ -27,8 +27,12 @@
       <file leaf-file-name="demo.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="32" selection-start="163" selection-end="163" vertical-scroll-proportion="0.097402595">
-              <folding />
+            <state line="28" column="64" selection-start="1264" selection-end="1264" vertical-scroll-proportion="0.5283019">
+              <folding>
+                <marker date="1281743959000" expanded="true" signature="201:1549" placeholder="{...}" />
+                <marker date="1281743959000" expanded="true" signature="315:477" placeholder="//..." />
+                <marker date="1281743959000" expanded="true" signature="936:1302" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,8 +62,8 @@
       <list>
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/demo.js" />
-        <option value="$PROJECT_DIR$/demo.html" />
         <option value="$PROJECT_DIR$/cyricles.js" />
+        <option value="$PROJECT_DIR$/demo.html" />
       </list>
     </option>
   </component>
@@ -229,8 +233,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="32" selection-start="163" selection-end="163" vertical-scroll-proportion="0.097402595">
-          <folding />
+        <state line="28" column="64" selection-start="1264" selection-end="1264" vertical-scroll-proportion="0.5283019">
+          <folding>
+            <marker date="1281743959000" expanded="true" signature="201:1549" placeholder="{...}" />
+            <marker date="1281743959000" expanded="true" signature="315:477" placeholder="//..." />
+            <marker date="1281743959000" expanded="true" signature="936:1302" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
