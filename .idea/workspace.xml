@@ -24,19 +24,19 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="demo.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="demo.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="32" selection-start="1319" selection-end="1319" vertical-scroll-proportion="-18.26087">
+            <state line="5" column="32" selection-start="163" selection-end="163" vertical-scroll-proportion="0.097402595">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cyricles.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="cyricles.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cyricles.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="129" column="5" selection-start="3263" selection-end="3263" vertical-scroll-proportion="0.54156476">
+            <state line="34" column="17" selection-start="1084" selection-end="1084" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -89,7 +89,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -104,7 +104,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Favorites" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -112,8 +112,8 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="options.lastSelected" value="preferences.keymap" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../cyricle" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PhpRunConfigurationType" factoryName="PHP">
@@ -127,18 +127,18 @@
         <option name="ValidateXdebugSetup" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
-      <JSDebuggerConfigurationSettings>
-        <option name="engineId" />
-        <option name="fileUrl" />
-      </JSDebuggerConfigurationSettings>
-      <method />
-    </configuration>
     <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method>
         <option name="FtpUpload" enabled="false" />
         <option name="ValidateXdebugSetup" enabled="true" />
       </method>
+    </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
+      <method />
     </configuration>
     <list size="0" />
   </component>
@@ -169,7 +169,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="34" width="1408" height="994" extended-state="6" />
+    <frame x="-4" y="34" width="1408" height="994" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -220,21 +220,16 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../cyricle/cyricle.js">
+    <entry file="file://$PROJECT_DIR$/cyricles.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="75" selection-start="56" selection-end="106" vertical-scroll-proportion="0.055012226" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="32" selection-start="1319" selection-end="1319" vertical-scroll-proportion="-18.26087">
+        <state line="34" column="17" selection-start="1084" selection-end="1084" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cyricles.js">
+    <entry file="file://$PROJECT_DIR$/demo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="5" selection-start="3263" selection-end="3263" vertical-scroll-proportion="0.54156476">
+        <state line="5" column="32" selection-start="163" selection-end="163" vertical-scroll-proportion="0.097402595">
           <folding />
         </state>
       </provider>

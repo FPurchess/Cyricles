@@ -32,6 +32,8 @@
     };
 })();
 
+//@TODO implement own ready-method
+
 
 
 /**
@@ -60,26 +62,36 @@ Cyricles = function (canvas, options) {
     this.ctx = this.canvas.getContext("2d");
 
     // set up options
-    var defaults = {
-        renderInterval : 20,
-        background : 'transparent',
-        width : 800,
-        height : 600
-    };
-
-    if (typeof(options) == "undefined") {
-        this.options = defaults
-    } else {
-        this.options = options;
-        for(var i in defaults) {
-            if (typeof(options[i]) == "undefined")
-                options[i] = defaults[i];
-        }
-    }
+    this.options = Cyricles.extend({
+            renderInterval : 20,
+            background : 'transparent',
+            width : 800,
+            height : 600
+        }, options);
 
     // init object-stack
     this.items = new Array();
+
+    this.renderingInterval = null;
 };
+
+Cyricles.extend = function(defaults, options) {
+    //@TODO Save extending + extending of Cyricles
+    if (options == undefined) return defaults;
+
+    for(var i in defaults) {
+        if (options[i] == undefined)
+            options[i] = defaults[i];
+    }
+
+    return options;
+}
+
+Cyricles.setDrawingAttributes = function(ctx, options){
+    for (var name in options) {
+        ctx[name] = options[name];
+    }
+}
 
 Cyricles.prototype.loadImages = function(images, callback) {
     var load = images.length; // amount of load images
@@ -120,6 +132,7 @@ Cyricles.prototype.clearScreen = function() {
  * @param that
  */
 Cyricles.prototype.render = function(that) {
+    //@TODO find a better solution than passing "this"-context
     that.clearScreen();
 
     for (var i=0; i < that.items.length; i++) {
@@ -130,12 +143,19 @@ Cyricles.prototype.render = function(that) {
     }
 };
 
+/**
+ * start rendering-interval
+ */
 Cyricles.prototype.startRender = function(){
     this.render(this);
-    var r = setInterval(function(that){that.render(that)}, this.options.renderInterval, this);
+    this.renderingInterval = setInterval(function(that){that.render(that)}, this.options.renderInterval, this);
 };
 
+/**
+ * stop rendering-interval
+ */
 Cyricles.prototype.stopRender = function(){
+    clearInterval(this.renderingInterval);          
 };
 
 /**
@@ -146,6 +166,7 @@ Cyricles.prototype.addItem = function(item) {
     this.items.push(item);
 };
 
+//@TODO Add some rendering-stack manipulation methods
 
 /**
  * CyScale
@@ -176,12 +197,13 @@ CyScale.prototype.draw = function(ctx) {
  * @param y
  * @param duration
  */
-CyScale.prototype.animate = function(x,y,duration, callback) {
+CyScale.prototype.animate = function(x, y, duration, callback) {
+    //@TODO restructure animation (abstraction?)
     var incX = (x - this.x) / duration;
     var incY = (y - this.y) / duration;
 
     var i = setInterval(function(that) {
-        if (x - that.x <= 0.0001) {
+        if (x - that.x <= 0.0001) { //@TODO improve final condition
             clearInterval(i);
             if (typeof(callback) == "function")
                 callback();
@@ -196,6 +218,8 @@ CyScale.prototype.animate = function(x,y,duration, callback) {
  * CyRotation
  * ####################################################################################
  */
+
+//@TODO maybe summarize CyScale + CyRotation + CyTransformation into a single Object
 
 /**
  * Initalize a rotation
@@ -218,11 +242,11 @@ CyRotation.prototype.draw = function(ctx) {
  * @param angle
  * @param duration
  */
-CyRotation.prototype.animate = function(angle,duration, callback) {
+CyRotation.prototype.animate = function(angle, duration, callback) {
     var incA = (angle - this.angle) / duration;
 
     var i = setInterval(function(that) {
-        if (angle - that.angle <= 0.0001) {
+        if (angle - that.angle <= 0.0001) { //@TODO see scale-animation
             if (typeof(callback) == "function")
                 callback();
             clearInterval(i);
@@ -247,63 +271,68 @@ CyRotation.prototype.animate = function(angle,duration, callback) {
  * @param strokeStyle
  * @param fillStyle
  */
-CyRect = function(x, y, width, height, strokeStyle, fillStyle) {
+CyRect = function(x, y, width, height, options) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.strokeStyle = strokeStyle;
-    this.fillStyle = fillStyle;
+    this.options = Cyricles.extend({strokeStyle: false, fillStyle: false}, options);
 };
 
+/**
+ * draw rectangle on the canvas-context
+ * @param ctx
+ */
 CyRect.prototype.draw = function(ctx){
     ctx.save();
 
-    if (this.fillStyle) {
-        ctx.fillStyle = this.fillStyle;
+    Cyricles.setDrawingAttributes(ctx, this.options);
+
+    if (this.options.fillStyle !== false)
         ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-    if (this.strokeStyle) {
-        ctx.strokeStyle = this.strokeStyle;
+
+    if (this.options.strokeStyle !== false)
         ctx.strokeRect(this.x, this.y, this.width, this.height);
-    }
+
 
     ctx.restore();
 };
+
+//@TODO implement rectangle-animations
+//@TODO implement animation-algorithm for colors
 
 /**
  * CyText
  * ####################################################################################
  */
 
-CyText = function(text, font, x, y, textAlign, fillStyle) {
+/**
+ * Initalize a new CyText-Object
+ * @param text
+ * @param x
+ * @param y
+ * @param options
+ */
+CyText = function(text, x, y, options) {
     this.text = text;
-    this.font = font;
     this.x = x;
     this.y = y;
-    this.textAlign = textAlign;
-    this.fillStyle = fillStyle;
+    this.options = Cyricles.extend({font: "10px Arial", textAlign: "start", fillStyle: "#000"}, options);
 };
 
+/**
+ * draw text on the canvas-context
+ * @param ctx
+ */
 CyText.prototype.draw = function(ctx){
     ctx.save();
 
-    if (this.font)
-        ctx.font = this.font;
-    else
-        ctx.font = "14pt Arial";
-
-    if (this.textAlign)
-        ctx.textAlign = this.textAlign;
-    else
-        ctx.textAlign = "start";
-
-    if (this.fillStyle)
-        ctx.fillStyle = this.fillStyle;
-    else
-        ctx.fillStyle = '#000';
-
+    Cyricles.setDrawingAttributes(ctx, this.options);
     ctx.fillText(this.text, this.x, this.y);
 
     ctx.restore();
 };
+
+//@TODO implement text-animations
+
+//@TODO implement some gradient-handling

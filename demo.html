@@ -5,10 +5,11 @@
     <script type="text/javascript" src="cyricles.js"></script>
     <script type="text/javascript">
         document.ready(function() {
+            // Initalize canvas
             var cy = new Cyricles("canvas", {background: '#fee'});
 
             // preload some textures
-            //cy.loadImages(["demo.png"],function(){console.log('all images loaded!')});
+            //cy.loadImages(["demo.png"],function(){alert('all images loaded!')});
 
             // Add custom-function to rendering-stack
             cy.addItem(function(cy){cy.ctx.rotate(0.1)});
@@ -23,14 +24,13 @@
             cy.addItem(rotation);
             rotation.animate(6,100, function(){
                 // if the animation is finished, add some text to rendering-buffer
-                cy.addItem(new CyText("Cyricles", "10px Helvetica", 30, 32, false, "#000"));
-                cy.addItem(new CyText("Animation Framework", "4px Arial", 31, 45, false, "#000"));
-                cy.addItem(new CyText("for HTML5 Canvas"    , "4px Arial", 31, 52, false, "#000"));
-                cy.stopRender();
+                cy.addItem(new CyText("Cyricles",  30, 32, {font: "10px Helvetica"}));
+                cy.addItem(new CyText("Animation Framework", 31, 45, {font: "4px Arial"}));
+                cy.addItem(new CyText("for HTML5 Canvas", 31, 52, {font: "4px Arial"}));
             });
 
             // Create a rectangle and also add it to rendering-stack
-            var rectangle = new CyRect(20,20,100,100,'#000', '#faa');
+            var rectangle = new CyRect(20,20,100,100, {strokeStyle: '#000', fillStyle: '#f99'});
             cy.addItem(rectangle);
 
             cy.startRender(cy);
