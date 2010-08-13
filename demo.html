@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Cyricles Demo Page</title>
+    <script type="text/javascript" src="cyricles.js"></script>
+    <script type="text/javascript">
+        document.ready(function() {
+            var cy = new Cyricles("canvas", {background: '#fee'});
+
+            // preload some textures
+            //cy.loadImages(["demo.png"],function(){console.log('all images loaded!')});
+
+            // Add custom-function to rendering-stack
+            cy.addItem(function(cy){cy.ctx.rotate(0.1)});
+
+            // Create a scale-object, add it to rendering-stack and animate it
+            var scale = new CyScale(1,1);
+            cy.addItem(scale);
+            scale.animate(10,10,100);
+
+            // Create a rotation-object, add it to rendering-stack and animate it
+            var rotation = new CyRotation(0);
+            cy.addItem(rotation);
+            rotation.animate(6,100, function(){
+                // if the animation is finished, add some text to rendering-buffer
+                cy.addItem(new CyText("Cyricles", "10px Helvetica", 30, 32, false, "#000"));
+                cy.addItem(new CyText("Animation Framework", "4px Arial", 31, 45, false, "#000"));
+                cy.addItem(new CyText("for HTML5 Canvas"    , "4px Arial", 31, 52, false, "#000"));
+                cy.stopRender();
+            });
+
+            // Create a rectangle and also add it to rendering-stack
+            var rectangle = new CyRect(20,20,100,100,'#000', '#faa');
+            cy.addItem(rectangle);
+
+            cy.startRender(cy);
+        });
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600">
+        <p>FOOL! You picked the wrong browser!</p>
+    </canvas>
+</body>
+</html>
