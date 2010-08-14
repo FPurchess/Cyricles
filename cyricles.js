@@ -77,7 +77,7 @@ Cyricles = function (canvas, options) {
 };
 
 Cyricles.extend = function(defaults, options) {
-    //@TODO Save extending + extending of Cyricles
+    //@TODO Secure extending + extending of Cyricles
     if (options == undefined) return defaults;
 
     for(var i in defaults) {
@@ -142,7 +142,7 @@ Cyricles.prototype.render = function(that) {
  * start rendering-interval
  */
 Cyricles.prototype.startRender = function(){
-    if (this.renderingInterval !== null) return false;
+    if (this.isRendering()) return false;
 
     this.render(this);
     this.renderingInterval = setInterval(function(that){that.render(that)}, this.options.renderInterval, this);
@@ -154,7 +154,7 @@ Cyricles.prototype.startRender = function(){
  * stop rendering-interval
  */
 Cyricles.prototype.stopRender = function(){
-    if (this.renderingInterval === null) return false;
+    if (!this.isRendering()) return false;
 
     clearInterval(this.renderingInterval);
     this.renderingInterval = null;
