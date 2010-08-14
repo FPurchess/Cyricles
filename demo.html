@@ -21,15 +21,10 @@ Copyright 2010 Florian Purchess
             // Add custom-function to rendering-stack
             cy.addItem(function(cy){cy.ctx.rotate(0.1)});
 
-            // Create a scale-object, add it to rendering-stack and animate it
-            var scale = new CyScale(1,1);
-            cy.addItem(scale);
-            scale.animate(10,10,100);
-
-            // Create a rotation-object, add it to rendering-stack and animate it
-            var rotation = new CyRotation(0);
-            cy.addItem(rotation);
-            rotation.animate(6,100, function(){
+            // Create a transform-object, add it to rendering-stack and animate it
+            var transformation = new CyTransformation();
+            cy.addItem(transformation);
+            transformation.animate(6,100, function(){
                 // if the animation is finished, add some text to rendering-buffer
                 cy.addItem(new CyText("Cyricles",  30, 32, {font: "10px Helvetica"}));
                 cy.addItem(new CyText("Animation Framework", 31, 43, {font: "4px Arial"}));

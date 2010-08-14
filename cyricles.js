@@ -88,12 +88,6 @@ Cyricles.extend = function(defaults, options) {
     return options;
 }
 
-Cyricles.setDrawingAttributes = function(ctx, options){
-    for (var name in options) {
-        ctx[name] = options[name];
-    }
-}
-
 Cyricles.prototype.loadImages = function(images, callback) {
     var load = images.length; // amount of load images
 
@@ -169,91 +163,81 @@ Cyricles.prototype.addItem = function(item) {
 
 //@TODO Add some rendering-stack manipulation methods
 
+
 /**
- * CyScale
+ * CyObject
  * ####################################################################################
  */
 
 /**
- * Initalize a scale
- * @param x
- * @param y
+ * Initalize a CyObject
+ * @param type
  */
-CyScale = function(x,y) {
-    this.x = x;
-    this.y = y;
+CyObject = function(type) {
+    this.type = type;
 };
+
+/**
+ * Set drawing-attributes
+ * @param ctx
+ * @param options
+ */
+CyObject.prototype.setDrawingAttributes = function(ctx, options){
+    for (var name in options)
+        ctx[name] = options[name];
+
+};
+
+
+/**
+ * CyTransform
+ * ####################################################################################
+ */
+
+/**
+ * Initalize a transformation-object
+ * @param options
+ */
+CyTransformation = function(options) {
+    CyObject.call(this, "CyTransform");
+    this.options = Cyricles.extend({scale:[1,1], angle:0, translate:[0,0], transform:[0, 0, 0, 0, 0, 0]}, options);
+};
+
+CyTransformation.prototyp = new CyObject;
+CyTransformation.prototyp.constructor = CyTransformation;
 
 /**
  * apply a scale to a context
  * @param ctx
  */
-CyScale.prototype.draw = function(ctx) {
-    ctx.scale(this.x,this.y);
+CyTransformation.prototype.draw = function(ctx) {
+    ctx.scale(this.options.scale[0],this.options.scale[1]);
+    ctx.rotate(this.options.angle);
+    ctx.translate(this.options.translate[0], this.options.translate[1]);
+    ctx.transform(this.options.transform[0], this.options.transform[1], this.options.transform[2],
+            this.options.transform[3], this.options.transform[4], this.options.transform[5]);
 };
 
 /**
  * Animate a scale
- * @param x
- * @param y
+ * @param options
  * @param duration
+ * @param callback
  */
-CyScale.prototype.animate = function(x, y, duration, callback) {
-    //@TODO restructure animation (abstraction?)
-    var incX = (x - this.x) / duration;
-    var incY = (y - this.y) / duration;
-
-    var i = setInterval(function(that) {
-        if (x - that.x <= 0.0001) { //@TODO improve final condition
-            clearInterval(i);
-            if (typeof(callback) == "function")
-                callback();
-        }
-        that.x += incX;
-        that.y += incY;
-    }, 1, this);
-};
-
-
-/**
- * CyRotation
- * ####################################################################################
- */
-
-//@TODO maybe summarize CyScale + CyRotation + CyTransformation into a single Object
-
-/**
- * Initalize a rotation
- * @param angle
- */
-CyRotation = function(angle) {
-    this.angle = angle;
-};
-
-/**
- * apply a rotation to the canvas-context
- * @param ctx
- */
-CyRotation.prototype.draw = function(ctx) {
-    ctx.rotate(this.angle);
-};
-
-/**
- * Animate a rotation
- * @param angle
- * @param duration
- */
-CyRotation.prototype.animate = function(angle, duration, callback) {
-    var incA = (angle - this.angle) / duration;
-
-    var i = setInterval(function(that) {
-        if (angle - that.angle <= 0.0001) { //@TODO see scale-animation
-            if (typeof(callback) == "function")
-                callback();
-            clearInterval(i);
-        }
-        that.angle += incA;
-    }, 1, this);
+CyTransformation.prototype.animate = function(options, duration, callback) {
+//    //@TODO restructure animation (abstraction?)
+//    var incX = (x - this.x) / duration;
+//    var incY = (y - this.y) / duration;
+//
+//    var i = setInterval(function(that) {
+//        if (x - that.x <= 0.0001) { //@TODO improve final condition
+//            clearInterval(i);
+//            if (typeof(callback) == "function")
+//                callback();
+//        }
+//        that.x += incX;
+//        that.y += incY;
+//    }, 1, this);
 };
 
 
@@ -269,16 +253,19 @@ CyRotation.prototype.animate = function(angle, duration, callback) {
  * @param y
  * @param width
  * @param height
- * @param strokeStyle
- * @param fillStyle
+ * @param options
  */
 CyRect = function(x, y, width, height, options) {
+    CyObject.call(this, "CyRect");
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.options = Cyricles.extend({strokeStyle: false, fillStyle: false}, options);
 };
+
+CyRect.prototyp = new CyObject;
+CyRect.prototyp.constructor = CyRect;
 
 /**
  * draw rectangle on the canvas-context
@@ -287,7 +274,7 @@ CyRect = function(x, y, width, height, options) {
 CyRect.prototype.draw = function(ctx){
     ctx.save();
 
-    Cyricles.setDrawingAttributes(ctx, this.options);
+    this.setDrawingAttributes(ctx, this.options);
 
     if (this.options.fillStyle !== false)
         ctx.fillRect(this.x, this.y, this.width, this.height);
