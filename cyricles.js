@@ -163,6 +163,13 @@ Cyricles.prototype.stopRender = function(){
 };
 
 /**
+ * return current rendering-status
+ */
+Cyricles.prototype.isRendering = function(){
+    return this.renderingInterval !== null;
+}
+
+/**
  * Add an item to the rendering-stack
  * @param item
  */
