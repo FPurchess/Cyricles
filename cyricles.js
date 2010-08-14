@@ -142,15 +142,24 @@ Cyricles.prototype.render = function(that) {
  * start rendering-interval
  */
 Cyricles.prototype.startRender = function(){
+    if (this.renderingInterval !== null) return false;
+
     this.render(this);
     this.renderingInterval = setInterval(function(that){that.render(that)}, this.options.renderInterval, this);
+
+    return true;
 };
 
 /**
  * stop rendering-interval
  */
 Cyricles.prototype.stopRender = function(){
-    clearInterval(this.renderingInterval);          
+    if (this.renderingInterval === null) return false;
+
+    clearInterval(this.renderingInterval);
+    this.renderingInterval = null;
+
+    return true;
 };
 
 /**
