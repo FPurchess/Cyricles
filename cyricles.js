@@ -37,8 +37,9 @@
 
 
 /**
- * Cyricles-Core
+ * Cyricles
  *
+ * @license see LICENSE file
  * @copyright Florian Purchess <florian@purchess.de>
  *
  * ####################################################################################
