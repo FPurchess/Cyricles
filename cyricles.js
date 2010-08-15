@@ -132,17 +132,15 @@ Cyricles.prototype.clearScreen = function() {
 
 /**
  * render the current rendering-stack
- * @param that
  */
-Cyricles.prototype.render = function(that) {
-    //@TODO find a better solution than passing "this"-context
-    that.clearScreen();
+Cyricles.prototype.render = function() {
+    this.clearScreen();
 
-    for (var i=0; i < that.items.length; i++) {
-        if (typeof(that.items[i]) == "function")
-            that.items[i](that);
+    for (var i=0; i < this.items.length; i++) {
+        if (typeof(this.items[i]) == "function")
+            this.items[i](this);
         else
-            that.items[i].draw(this.ctx);
+            this.items[i].draw(this.ctx);
     }
 };
 
@@ -152,8 +150,8 @@ Cyricles.prototype.render = function(that) {
 Cyricles.prototype.startRender = function(){
     if (this.isRendering()) return false;
 
-    this.render(this);
-    this.renderingInterval = setInterval(function(that){that.render(that)}, this.options.renderInterval, this);
+    this.render.call(this);
+    this.renderingInterval = setInterval(function(e){e.render.call(e)}, this.options.renderInterval, this);
 
     return true;
 };
