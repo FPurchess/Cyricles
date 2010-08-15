@@ -86,7 +86,7 @@ Cyricles.extend = function(defaults, options) {
     }
 
     return options;
-}
+};
 
 Cyricles.prototype.loadImages = function(images, callback) {
     var load = images.length; // amount of load images
@@ -167,7 +167,7 @@ Cyricles.prototype.stopRender = function(){
  */
 Cyricles.prototype.isRendering = function(){
     return this.renderingInterval !== null;
-}
+};
 
 /**
  * Add an item to the rendering-stack
@@ -198,10 +198,82 @@ CyObject = function(type) {
  * @param ctx
  * @param options
  */
-CyObject.prototype.setDrawingAttributes = function(ctx, options){
-    for (var name in options)
-        ctx[name] = options[name];
+CyObject.prototype.setDrawingAttributes = function(ctx){
+    for (var name in this.options)
+        ctx[name] = this.options[name];
 
+};
+
+CyObject.prototype.getAnimatables = function(user, options) {
+    var animatables, key;
+
+    if (options == undefined)
+        options = this.options
+
+    for(key in user) {
+        if (options[key] != undefined) {
+            if (typeof(user[key]) == "Object")
+                animatables[key] = this.getAnimatables(user[key], options[key]);
+            else
+                animatables[key] = user[key];
+        }
+    }
+
+    return animatables;
+}
+
+CyObject.prototype.getAnimationRange = function(animatable, duration, steps, options) {
+    var addifiers, key;
+
+    if (options == undefined)
+        options = this.options;
+
+    for(key in animatable) {
+        if (options[key] != undefined) {
+            if (typeof(animatable[key]) == "Object")
+                addifiers[key] = this.getAnimationRange(animatable[key], duration, steps, options[key]);
+            else if (typeof(animatable[key]) == "number")
+                addifiers[key] = (animatable[key] - options[key]) / (duration / steps);
+        }
+    }
+
+    return addifiers;
+};
+
+CyObject.prototype.addOptionValues = function(addifiers, options) {
+    var key;
+    
+    if (options == undefined)
+        options = this.options;
+
+    for(key in addifiers) {
+        if (options[key] != undefined) {
+            if (typeof(animatable[key]) == "Object")
+                addifiers[key] = this.addOptionValues(addifiers[key], options[key]);
+            else if (typeof(animatable[key]) == "number")
+                options[key] += addifiers[key];
+        }
+    }
+
+    return options;
+};
+
+CyObject.prototype.animate = function(options, duration, callback) {
+    var animatables = this.getAnimatables(options);
+    var addifiers = this.getAnimationRange(animatables, duration, 1);
+
+    this.timer(function(parameters){
+        parameters.this.options = parameters.this.addOptionValues(addifiers);
+    }, duration, 1, {this: this}, callback);
+};
+
+CyObject.prototype.timer = function(fn, duration, steps, parameters, callback) {
+    var interval = setInterval(function(fn, parameters){fn(parameters);}, steps, fn, parameters);
+
+    setTimeout(function(interval, callback){
+        clearInterval(interval);
+        callback();
+    }, duration, interval, callback)
 };
 
 
@@ -215,12 +287,11 @@ CyObject.prototype.setDrawingAttributes = function(ctx, options){
  * @param options
  */
 CyTransformation = function(options) {
-    CyObject.call(this, "CyTransform");
     this.options = Cyricles.extend({scale:[1,1], angle:0, translate:[0,0], transform:[0, 0, 0, 0, 0, 0]}, options);
 };
 
-CyTransformation.prototyp = new CyObject;
-CyTransformation.prototyp.constructor = CyTransformation;
+CyTransformation.prototype = new CyObject;
+CyTransformation.prototype.constructor = CyTransformation;
 
 /**
  * apply a scale to a context
@@ -232,28 +303,6 @@ CyTransformation.prototype.draw = function(ctx) {
     ctx.translate(this.options.translate[0], this.options.translate[1]);
     ctx.transform(this.options.transform[0], this.options.transform[1], this.options.transform[2],
             this.options.transform[3], this.options.transform[4], this.options.transform[5]);
-};
-
-/**
- * Animate a scale
- * @param options
- * @param duration
- * @param callback
- */
-CyTransformation.prototype.animate = function(options, duration, callback) {
-//    //@TODO restructure animation (abstraction?)
-//    var incX = (x - this.x) / duration;
-//    var incY = (y - this.y) / duration;
-//
-//    var i = setInterval(function(that) {
-//        if (x - that.x <= 0.0001) { //@TODO improve final condition
-//            clearInterval(i);
-//            if (typeof(callback) == "function")
-//                callback();
-//        }
-//        that.x += incX;
-//        that.y += incY;
-//    }, 1, this);
 };
 
 
@@ -280,8 +329,8 @@ CyRect = function(x, y, width, height, options) {
     this.options = Cyricles.extend({strokeStyle: false, fillStyle: false}, options);
 };
 
-CyRect.prototyp = new CyObject;
-CyRect.prototyp.constructor = CyRect;
+CyRect.prototype = new CyObject;
+CyRect.prototype.constructor = CyRect;
 
 /**
  * draw rectangle on the canvas-context
@@ -290,7 +339,7 @@ CyRect.prototyp.constructor = CyRect;
 CyRect.prototype.draw = function(ctx){
     ctx.save();
 
-    this.setDrawingAttributes(ctx, this.options);
+    this.setDrawingAttributes(ctx);
 
     if (this.options.fillStyle !== false)
         ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -324,6 +373,9 @@ CyText = function(text, x, y, options) {
     this.options = Cyricles.extend({font: "10px Arial", textAlign: "start", fillStyle: "#000"}, options);
 };
 
+CyText.prototype = CyObject;
+CyText.prototype.constructor = CyText;
+
 /**
  * draw text on the canvas-context
  * @param ctx
@@ -331,7 +383,7 @@ CyText = function(text, x, y, options) {
 CyText.prototype.draw = function(ctx){
     ctx.save();
 
-    Cyricles.setDrawingAttributes(ctx, this.options);
+    this.setDrawingAttributes(ctx);
     ctx.fillText(this.text, this.x, this.y);
 
     ctx.restore();
