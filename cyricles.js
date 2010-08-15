@@ -205,7 +205,7 @@ CyObject.prototype.setDrawingAttributes = function(ctx){
 };
 
 CyObject.prototype.getAnimatables = function(user, options) {
-    var animatables, key;
+    var animatables = {}, key;
 
     if (options == undefined)
         options = this.options
@@ -223,7 +223,7 @@ CyObject.prototype.getAnimatables = function(user, options) {
 }
 
 CyObject.prototype.getAnimationRange = function(animatable, duration, steps, options) {
-    var addifiers, key;
+    var addifiers = {}, key;
 
     if (options == undefined)
         options = this.options;
@@ -248,9 +248,9 @@ CyObject.prototype.addOptionValues = function(addifiers, options) {
 
     for(key in addifiers) {
         if (options[key] != undefined) {
-            if (typeof(animatable[key]) == "Object")
+            if (typeof(addifiers[key]) == "Object")
                 addifiers[key] = this.addOptionValues(addifiers[key], options[key]);
-            else if (typeof(animatable[key]) == "number")
+            else if (typeof(addifiers[key]) == "number")
                 options[key] += addifiers[key];
         }
     }
@@ -301,8 +301,8 @@ CyTransformation.prototype.draw = function(ctx) {
     ctx.scale(this.options.scale[0],this.options.scale[1]);
     ctx.rotate(this.options.angle);
     ctx.translate(this.options.translate[0], this.options.translate[1]);
-    ctx.transform(this.options.transform[0], this.options.transform[1], this.options.transform[2],
-            this.options.transform[3], this.options.transform[4], this.options.transform[5]);
+//    ctx.transform(this.options.transform[0], this.options.transform[1], this.options.transform[2],
+//            this.options.transform[3], this.options.transform[4], this.options.transform[5]);
 };
 
 
@@ -373,7 +373,7 @@ CyText = function(text, x, y, options) {
     this.options = Cyricles.extend({font: "10px Arial", textAlign: "start", fillStyle: "#000"}, options);
 };
 
-CyText.prototype = CyObject;
+CyText.prototype = new CyObject;
 CyText.prototype.constructor = CyText;
 
 /**
