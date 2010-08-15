@@ -185,6 +185,37 @@ Cyricles.prototype.addItem = function(item) {
     this.items.push(item);
 };
 
+/**
+ * Add an item to the rendering-stack at position <index>
+ * @param item
+ * @param index
+ */
+Cyricles.prototype.addItemAt = function(item, index) {
+    if (index == 0) {
+        this.items.unshift(item);
+    } else if (index == this.items.length) {
+        this.items.push(item);
+    } else {
+        var tmp1 = this.items.slice(0, index),
+            tmp2 = this.items.slice(index, this.items.length);
+        tmp1.push(item);
+        this.items = tmp1.concat(tmp2);
+    }
+
+};
+
+/**
+ * Remove an item off the rendering-stack
+ * @param item
+ * @param index
+ */
+Cyricles.prototype.removeItem = function(item, index) {
+    if (index == undefined)
+        this.items.pop();
+    else
+        delete this.items[index];
+};
+
 //@TODO Add some rendering-stack manipulation methods
 
 
