@@ -37,7 +37,7 @@
 /**
  * just for testing-purpose
  */
-DEBUG_LEVEL = 1;
+DEBUG_LEVEL = true;
 debug = function(arg) {
     if (DEBUG_LEVEL && console != undefined)
         console.info(arg);
@@ -204,7 +204,6 @@ CyObject = function(type) {
 /**
  * Set drawing-attributes
  * @param ctx
- * @param options
  */
 CyObject.prototype.setDrawingAttributes = function(ctx){
     for (var name in this.options)
@@ -212,15 +211,20 @@ CyObject.prototype.setDrawingAttributes = function(ctx){
 
 };
 
+/**
+ * Retrieve all options that will be animated
+ * @param user
+ * @param options
+ */
 CyObject.prototype.getAnimatables = function(user, options) {
     var animatables = {}, key;
 
     if (options == undefined)
-        options = this.options
+        options = this.options;
 
     for(key in user) {
         if (options[key] != undefined) {
-            if (typeof(user[key]) == "Object")
+            if (typeof(user[key]) == "object")
                 animatables[key] = this.getAnimatables(user[key], options[key]);
             else
                 animatables[key] = user[key];
@@ -228,9 +232,16 @@ CyObject.prototype.getAnimatables = function(user, options) {
     }
 
     return animatables;
-}
+};
 
-CyObject.prototype.getAnimationRange = function(animatable, duration, steps, options) {
+/**
+ * Get the increase-value <addifier> for every <animatable> in relation to <duration> / <steps>
+ * @param animatable
+ * @param duration
+ * @param steps
+ * @param options
+ */
+CyObject.prototype.getAddifiers = function(animatable, duration, steps, options) {
     var addifiers = {}, key;
 
     if (options == undefined)
@@ -238,8 +249,8 @@ CyObject.prototype.getAnimationRange = function(animatable, duration, steps, opt
 
     for(key in animatable) {
         if (options[key] != undefined) {
-            if (typeof(animatable[key]) == "Object" || animatable[key] instanceof Array)
-                addifiers[key] = this.getAnimationRange(animatable[key], duration, steps, options[key]);
+            if (typeof(animatable[key]) == "object")
+                addifiers[key] = this.getAddifiers(animatable[key], duration, steps, options[key]);
             else if (typeof(animatable[key]) == "number")
                 addifiers[key] = (animatable[key] - options[key]) / (duration / steps);
         }
@@ -248,6 +259,11 @@ CyObject.prototype.getAnimationRange = function(animatable, duration, steps, opt
     return addifiers;
 };
 
+/**
+ * Add the values of <addifiers> to the values of <options>
+ * @param addifiers
+ * @param options
+ */
 CyObject.prototype.addOptionValues = function(addifiers, options) {
     var key;
     
@@ -256,7 +272,7 @@ CyObject.prototype.addOptionValues = function(addifiers, options) {
 
     for(key in addifiers) {
         if (options[key] != undefined) {
-            if (typeof(addifiers[key]) == "Object" || addifiers[key] instanceof Array)
+            if (typeof(addifiers[key]) == "object")
                 addifiers[key] = this.addOptionValues(addifiers[key], options[key]);
             else if (typeof(addifiers[key]) == "number")
                 options[key] += addifiers[key];
@@ -266,26 +282,31 @@ CyObject.prototype.addOptionValues = function(addifiers, options) {
     return options;
 };
 
+/**
+ * Executes a function <fn> for <duration> (in <steps> ms), passing <parameters>, executing callback at the end
+ * @param fn
+ * @param duration
+ * @param steps
+ * @param parameters
+ * @param callback
+ */
+CyObject.prototype.timer = function(fn, duration, steps, parameters, callback) {
+    var i = setInterval(function(fn, parameters){
+        fn(parameters);
+
+        if ((duration -= steps) <= 0)
+            clearInterval(i),callback();
+    }, steps, fn, parameters);
+
+};
+
 CyObject.prototype.animate = function(options, duration, callback) {
     var animatables = this.getAnimatables(options);
-    var addifiers = this.getAnimationRange(animatables, duration, 1);
+    var addifiers = this.getAddifiers(animatables, duration, 1);
 
     this.timer(function(that){
         that.options = that.addOptionValues(addifiers);
     }, duration, 1, this, callback);
-};
-
-CyObject.prototype.timer = function(fn, duration, steps, parameters, callback) {
-    var i = setInterval(function(fn, parameters){
-        fn(parameters);
-        duration-=steps;
-
-        if (duration <= 0) {
-            clearInterval(i);
-            callback();
-        }
-    }, steps, fn, parameters);
-
 };
 
 
@@ -299,10 +320,10 @@ CyObject.prototype.timer = function(fn, duration, steps, parameters, callback) {
  * @param options
  */
 CyTransformation = function(options) {
-    this.options = Cyricles.extend({scale:[1,1], angle:0, translate:[0,0], transform:[0, 0, 0, 0, 0, 0]}, options);
+    this.options = Cyricles.extend({scale:[1,1], rotate:0, translate:[0,0], transform:[0, 0, 0, 0, 0, 0]}, options);
 };
 
-CyTransformation.prototype = new CyObject;
+CyTransformation.prototype = new CyObject("CyTransformation");
 CyTransformation.prototype.constructor = CyTransformation;
 
 /**
@@ -311,7 +332,7 @@ CyTransformation.prototype.constructor = CyTransformation;
  */
 CyTransformation.prototype.draw = function(ctx) {
     ctx.scale(this.options.scale[0],this.options.scale[1]);
-    ctx.rotate(this.options.angle);
+    ctx.rotate(this.options.rotate);
     ctx.translate(this.options.translate[0], this.options.translate[1]);
 //    ctx.transform(this.options.transform[0], this.options.transform[1], this.options.transform[2],
 //            this.options.transform[3], this.options.transform[4], this.options.transform[5]);
@@ -341,7 +362,7 @@ CyRect = function(x, y, width, height, options) {
     this.options = Cyricles.extend({strokeStyle: false, fillStyle: false}, options);
 };
 
-CyRect.prototype = new CyObject;
+CyRect.prototype = new CyObject("CyRect");
 CyRect.prototype.constructor = CyRect;
 
 /**
@@ -385,7 +406,7 @@ CyText = function(text, x, y, options) {
     this.options = Cyricles.extend({font: "10px Arial", textAlign: "start", fillStyle: "#000"}, options);
 };
 
-CyText.prototype = new CyObject;
+CyText.prototype = new CyObject("CyText");
 CyText.prototype.constructor = CyText;
 
 /**
