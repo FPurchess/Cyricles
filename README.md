@@ -24,8 +24,8 @@ Please feel free to participate, test and suggest :)
 *   **Cyricles.clearScreen()**
     Clear the Canvas (with given background)
 
-*   **Cyricles.render(that)**
-    Render rendering-stack of given Cyricle
+*   **Cyricles.render()**
+    Render rendering-stack
 
 *   **Cyricles.startRender()**
     Start the rendering interval (returns true on success)
@@ -108,8 +108,6 @@ Child of CyObject -> all CyObject-Methods are available
 
 *   improve Cyricles.extend for easy plugins
 
-*   improve Cyricles.render (not passing this-context anymore)
-
 *   implement color-parsing + color-animation algorithm
 
 *   implement gradient-objects
@@ -119,6 +117,8 @@ Child of CyObject -> all CyObject-Methods are available
 *   abstract & clean animation-methods in CyObject + Subclasses
 
 *   add some rendering-stack manipulation methods
+
+*   improve Cyricles.render (not passing this-context anymore)
 
 ## License ##
 
