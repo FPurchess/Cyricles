@@ -36,6 +36,7 @@
 
 
 
+
 /**
  * Cyricles
  *
@@ -230,7 +231,7 @@ CyObject.prototype.getAnimationRange = function(animatable, duration, steps, opt
 
     for(key in animatable) {
         if (options[key] != undefined) {
-            if (typeof(animatable[key]) == "Object")
+            if (typeof(animatable[key]) == "Object" || animatable[key] instanceof Array)
                 addifiers[key] = this.getAnimationRange(animatable[key], duration, steps, options[key]);
             else if (typeof(animatable[key]) == "number")
                 addifiers[key] = (animatable[key] - options[key]) / (duration / steps);
@@ -248,7 +249,7 @@ CyObject.prototype.addOptionValues = function(addifiers, options) {
 
     for(key in addifiers) {
         if (options[key] != undefined) {
-            if (typeof(addifiers[key]) == "Object")
+            if (typeof(addifiers[key]) == "Object" || addifiers[key] instanceof Array)
                 addifiers[key] = this.addOptionValues(addifiers[key], options[key]);
             else if (typeof(addifiers[key]) == "number")
                 options[key] += addifiers[key];
@@ -262,18 +263,22 @@ CyObject.prototype.animate = function(options, duration, callback) {
     var animatables = this.getAnimatables(options);
     var addifiers = this.getAnimationRange(animatables, duration, 1);
 
-    this.timer(function(parameters){
-        parameters.this.options = parameters.this.addOptionValues(addifiers);
-    }, duration, 1, {this: this}, callback);
+    this.timer(function(that){
+        that.options = that.addOptionValues(addifiers);
+    }, duration, 1, this, callback);
 };
 
 CyObject.prototype.timer = function(fn, duration, steps, parameters, callback) {
-    var interval = setInterval(function(fn, parameters){fn(parameters);}, steps, fn, parameters);
+    var i = setInterval(function(fn, parameters){
+        fn(parameters);
+        duration-=steps;
 
-    setTimeout(function(interval, callback){
-        clearInterval(interval);
-        callback();
-    }, duration, interval, callback)
+        if (duration <= 0) {
+            clearInterval(i);
+            callback();
+        }
+    }, steps, fn, parameters);
+
 };
 
 

@@ -24,7 +24,7 @@ Copyright 2010 Florian Purchess
             // Create a transform-object, add it to rendering-stack and animate it
             var transformation = new CyTransformation();
             cy.addItem(transformation);
-            transformation.animate({angle:65, scale:[6,6]}, 1000, function(){
+            transformation.animate({angle:6, scale:[6,6]}, 100, function(){
                 // if the animation is finished, add some text to rendering-buffer
                 cy.addItem(new CyText("Cyricles",  30, 32, {font: "10px Helvetica"}));
                 cy.addItem(new CyText("Animation Framework", 31, 43, {font: "4px Arial"}));
