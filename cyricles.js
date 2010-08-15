@@ -251,8 +251,9 @@ CyObject.prototype.getAddifiers = function(animatable, duration, steps, options)
         if (options[key] != undefined) {
             if (typeof(animatable[key]) == "object")
                 addifiers[key] = this.getAddifiers(animatable[key], duration, steps, options[key]);
-            else if (typeof(animatable[key]) == "number")
+            else if (typeof(animatable[key]) == "number") {
                 addifiers[key] = (animatable[key] - options[key]) / (duration / steps);
+            }
         }
     }
 
@@ -291,6 +292,9 @@ CyObject.prototype.addOptionValues = function(addifiers, options) {
  * @param callback
  */
 CyObject.prototype.timer = function(fn, duration, steps, parameters, callback) {
+    if (duration < steps)
+        throw("timer duration < steps!");
+
     var i = setInterval(function(fn, parameters){
         fn(parameters);
 
