@@ -34,7 +34,14 @@
 
 //@TODO implement own ready-method
 
-
+/**
+ * just for testing-purpose
+ */
+DEBUG_LEVEL = 1;
+debug = function(arg) {
+    if (DEBUG_LEVEL && console != undefined)
+        console.info(arg);
+};
 
 
 /**
