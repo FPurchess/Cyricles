@@ -151,7 +151,8 @@ Cyricles.prototype.startRender = function(){
     if (this.isRendering()) return false;
 
     this.render.call(this);
-    this.renderingInterval = setInterval(function(e){e.render.call(e)}, this.options.renderInterval, this);
+    var scope = this;
+    this.renderingInterval = setInterval(function(){scope.render.call(scope)}, this.options.renderInterval);
 
     return true;
 };
