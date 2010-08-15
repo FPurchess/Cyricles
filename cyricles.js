@@ -304,6 +304,12 @@ CyObject.prototype.timer = function(fn, duration, steps, parameters, callback) {
 
 };
 
+/**
+ * Animates CyObject's options until values of <options> over duration, calling <callback> at the end
+ * @param options
+ * @param duration
+ * @param callback
+ */
 CyObject.prototype.animate = function(options, duration, callback) {
     var animatables = this.getAnimatables(options);
     var addifiers = this.getAddifiers(animatables, duration, 1);
@@ -327,6 +333,9 @@ CyTransformation = function(options) {
     this.options = Cyricles.extend({scale:[1,1], rotate:0, translate:[0,0], transform:[0, 0, 0, 0, 0, 0]}, options);
 };
 
+/**
+ * Inheritance of CyObject
+ */
 CyTransformation.prototype = new CyObject("CyTransformation");
 CyTransformation.prototype.constructor = CyTransformation;
 
@@ -366,6 +375,9 @@ CyRect = function(x, y, width, height, options) {
     this.options = Cyricles.extend({strokeStyle: false, fillStyle: false}, options);
 };
 
+/**
+ * Inheritance of CyObject
+ */
 CyRect.prototype = new CyObject("CyRect");
 CyRect.prototype.constructor = CyRect;
 
@@ -410,6 +422,9 @@ CyText = function(text, x, y, options) {
     this.options = Cyricles.extend({font: "10px Arial", textAlign: "start", fillStyle: "#000"}, options);
 };
 
+/**
+ * Inheritance of CyObject
+ */
 CyText.prototype = new CyObject("CyText");
 CyText.prototype.constructor = CyText;
 

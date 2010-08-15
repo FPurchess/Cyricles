@@ -48,6 +48,21 @@ Please feel free to participate, test and suggest :)
 *   **CyObject.setDrawingAttributes(ctx, options)**
     Set Attributes specified in options to given canvas-context ctx
 
+*   **CyObject.getAnimatables(user, options)**
+    Retrieve all options that will be animated
+
+*   **CyObject.getAddifiers(animatable, duration, steps, options)**
+    Get the increase-value <addifier> for every <animatable> in relation to <duration> / <steps>
+
+*   **CyObject.addOptionValues(addifiers, options)**
+    Add the values of <addifiers> to the values of <options>
+
+*   **CyObject.timer(fn, duration, steps, parameters, callback)**
+    Executes a function <fn> for <duration> (in <steps> ms), passing <parameters>, executing callback at the end
+
+*   **CyObject.animate(options, duration, callback)**
+    Animates <options> over duration, calling <callback> at the end
+
 
 ### CyTransformation ###
 
@@ -56,9 +71,6 @@ Please feel free to participate, test and suggest :)
 
 *   **CyTransformation.draw(ctx)**
     apply the transformation to the context
-
-*   **CyTransformation.animate(ctx)**
-    @TODO: Not implemented yet
 
 
 ### CyRect ###
@@ -89,11 +101,13 @@ Please feel free to participate, test and suggest :)
 
 *   add some rendering-stack manipulation methods
 
-*   abstract & clean animation-methods in CyObject + Subclasses
-
 *   implement color-parsing + color-animation algorithm
 
 *   implement gradient-objects
+
+### Done ###
+
+*   abstract & clean animation-methods in CyObject + Subclasses
 
 ## License ##
 
