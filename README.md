@@ -3,7 +3,7 @@
 Experimental HTML5 Canvas Animation Framework
 
 Currently, there's a hugh todo-list and many things, not even
-placed on the it. However, to whom might wonder about, let this
+placed on it. However, to whom might wonder about, let this
 just be an experiment and proof of concept.
 
 Please feel free to participate, test and suggest :)
