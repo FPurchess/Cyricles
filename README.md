@@ -39,6 +39,12 @@ Please feel free to participate, test and suggest :)
 *   **Cyricles.addItem(item)**
     Add an item to the rendering-stack
 
+*   **Cyricles.addItemAt(item index)**
+    Add an item to the rendering-stack at position <index>
+
+*   **Cyricles.removeItem(item, index)**
+    Remove an item off the rendering-stack
+
 
 ### CyObject ###
 
@@ -93,13 +99,13 @@ Please feel free to participate, test and suggest :)
 
 ## TODO ##
 
+*   fix array-animation-bug (e.g. transformation-scale)
+
 *   implement own ready-method
 
 *   improve Cyricles.extend for easy plugins
 
 *   improve Cyricles.render (not passing this-context anymore)
-
-*   add some rendering-stack manipulation methods
 
 *   implement color-parsing + color-animation algorithm
 
@@ -108,6 +114,8 @@ Please feel free to participate, test and suggest :)
 ### Done ###
 
 *   abstract & clean animation-methods in CyObject + Subclasses
+
+*   add some rendering-stack manipulation methods
 
 ## License ##
 

@@ -216,8 +216,6 @@ Cyricles.prototype.removeItem = function(item, index) {
         delete this.items[index];
 };
 
-//@TODO Add some rendering-stack manipulation methods
-
 
 /**
  * CyObject
