@@ -71,6 +71,7 @@ Please feel free to participate, test and suggest :)
 
 
 ### CyTransformation ###
+Child of CyObject -> all CyObject-Methods are available
 
 *   **CyTransformation(options)**
     Instanciate a new Cyricles-Transformation
@@ -80,6 +81,7 @@ Please feel free to participate, test and suggest :)
 
 
 ### CyRect ###
+Child of CyObject -> all CyObject-Methods are available
 
 *   **CyRect(x, y, width, height, options)**
     Instanciate a new Cyricles-Rectangle
@@ -89,6 +91,7 @@ Please feel free to participate, test and suggest :)
 
 
 ### CyText ###
+Child of CyObject -> all CyObject-Methods are available
 
 *   **CyText(text, x, y, options)**
     Instanciate a new Cyricles-Rectangle
