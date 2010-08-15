@@ -107,12 +107,12 @@ Cyricles.prototype.loadImages = function(images, callback) {
     }
 
     var t = setInterval(function() {
-        if (!load)
+        if (!load) {
             clearInterval(t);
+            if (typeof(callback) == "function")
+                callback(images);
+        }
     }, 0);
-
-    if (typeof(callback) == "function")
-        callback(images);
 
     return images;
 };
