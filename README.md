@@ -102,8 +102,6 @@ Child of CyObject -> all CyObject-Methods are available
 
 ## TODO ##
 
-*   fix array-animation-bug (e.g. transformation-scale)
-
 *   implement own ready-method
 
 *   improve Cyricles.extend for easy plugins
@@ -113,6 +111,8 @@ Child of CyObject -> all CyObject-Methods are available
 *   implement gradient-objects
 
 ### Done ###
+
+*   fix array-animation-bug (e.g. transformation-scale)
 
 *   abstract & clean animation-methods in CyObject + Subclasses
 
