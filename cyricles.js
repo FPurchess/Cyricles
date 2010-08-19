@@ -302,7 +302,7 @@ CyObject.prototype.addOptionValues = function(addifiers, options) {
     for(key in addifiers) {
         if (options[key] != undefined) {
             if (typeof(addifiers[key]) == "object")
-                addifiers[key] = this.addOptionValues(addifiers[key], options[key]);
+                options[key] = this.addOptionValues(addifiers[key], options[key]);
             else if (typeof(addifiers[key]) == "number")
                 options[key] += addifiers[key];
         }
