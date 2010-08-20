@@ -33,6 +33,7 @@ Copyright 2010 Florian Purchess
 
             // Create a rectangle and also add it to rendering-stack
             var rectangle = new CyRect(20,20,100,100, {strokeStyle: '#000', fillStyle: '#f99'});
+            rectangle.animate({width: 8}, 100);
             cy.addItem(rectangle);
 
             cy.startRender(cy);

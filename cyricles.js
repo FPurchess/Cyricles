@@ -215,6 +215,41 @@ Cyricles.prototype.removeItem = function(item, index) {
         delete this.items[index];
 };
 
+/**
+ * Convert a string containing color-informations into an animatable object
+ * @param colorString
+ */
+Cyricles.prototype.colorToObject = function(colorString) {
+    var color = {R:null, G:null, B:null, Alpha: 255};
+
+    if (colorString.charAt(0) == '#') {
+        // HEX
+        color.R = parseInt(colorString.substring(1,3), 16);
+        color.G = parseInt(colorString.substring(3,5), 16);
+        color.B = parseInt(colorString.substring(5,7), 16);
+
+        // parse alpha
+        if (colorString.length == 9) {
+            color.Alpha = parseInt(colorString.substring(7,9), 16);
+        }
+
+    } else if ( colMatch = /^rgb\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/gi.exec(colorString) ) {
+        // RGB
+        color.R = colMatch[1];
+        color.G = colMatch[2];
+        color.B = colMatch[3];
+
+    } else if ( colMatch = /^rgba\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d{1,3})\)$/gi.exec(colorString) ) {
+        // RGBA
+        color.R = colMatch[1];
+        color.G = colMatch[2];
+        color.B = colMatch[3];
+        color.Alpha = colMatch[4];
+    }
+
+    return color;
+};
+
 
 /**
  * CyObject
@@ -339,6 +374,9 @@ CyObject.prototype.timer = function(fn, duration, steps, parameters, callback) {
  * @param callback
  */
 CyObject.prototype.animate = function(options, duration, callback) {
+    if (callback == undefined)
+        callback = function(){};
+
     var animatables = this.getAnimatables(options);
     var addifiers = this.getAddifiers(animatables, duration, 1);
 
@@ -396,11 +434,11 @@ CyTransformation.prototype.draw = function(ctx) {
  */
 CyRect = function(x, y, width, height, options) {
     CyObject.call(this, "CyRect");
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
     this.options = Cyricles.extend({strokeStyle: false, fillStyle: false}, options);
+    this.options.x = x;
+    this.options.y = y;
+    this.options.width = width;
+    this.options.height = height;
 };
 
 /**
@@ -419,10 +457,10 @@ CyRect.prototype.draw = function(ctx){
     this.setDrawingAttributes(ctx);
 
     if (this.options.fillStyle !== false)
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillRect(this.options.x, this.options.y, this.options.width, this.options.height);
 
     if (this.options.strokeStyle !== false)
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
+        ctx.strokeRect(this.options.x, this.options.y, this.options.width, this.options.height);
 
 
     ctx.restore();
@@ -445,9 +483,9 @@ CyRect.prototype.draw = function(ctx){
  */
 CyText = function(text, x, y, options) {
     this.text = text;
-    this.x = x;
-    this.y = y;
     this.options = Cyricles.extend({font: "10px Arial", textAlign: "start", fillStyle: "#000"}, options);
+    this.options.x = x;
+    this.options.y = y;
 };
 
 /**
@@ -464,7 +502,7 @@ CyText.prototype.draw = function(ctx){
     ctx.save();
 
     this.setDrawingAttributes(ctx);
-    ctx.fillText(this.text, this.x, this.y);
+    ctx.fillText(this.text, this.options.x, this.options.y);
 
     ctx.restore();
 };
