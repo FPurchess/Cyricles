@@ -45,6 +45,9 @@ Please feel free to participate, test and suggest :)
 *   **Cyricles.removeItem(item, index)**
     Remove an item off the rendering-stack
 
+*   **Cyricles.colorToObject(colorString)**
+    Parses color- and alpha-informations out of a string (hex, rgb and rgba) into an animatable object
+
 
 ### CyObject ###
 
@@ -89,6 +92,14 @@ Child of CyObject -> all CyObject-Methods are available
 *   **CyRect.draw(ctx)**
     draw the rectangle on the screen
 
+### CyArc ###
+Child of CyObject -> all CyObject-Methods are available
+
+*   **CyArc(x, y, radius, options)**
+    Instanciate a new Cyricles-Arc
+
+*   **CyArc.draw(ctx)**
+    draw the arc on the screen
 
 ### CyText ###
 Child of CyObject -> all CyObject-Methods are available
