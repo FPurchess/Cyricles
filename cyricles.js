@@ -466,8 +466,58 @@ CyRect.prototype.draw = function(ctx){
     ctx.restore();
 };
 
-//@TODO implement rectangle-animations
 //@TODO implement animation-algorithm for colors
+
+
+/**
+ * CyArc
+ * ####################################################################################
+ */
+
+/**
+ * Initalize a new Cyricles-Rectangle
+ *
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ * @param options
+ */
+CyArc = function(x, y, radius, options) {
+    CyObject.call(this, "CyRect");
+    this.options = Cyricles.extend({strokeStyle: '#000', fillStyle: '#fff', startAngle: 0, endAngle: Math.PI*2, anticlockwise: false}, options);
+    this.options.x = x;
+    this.options.y = y;
+    this.options.radius = radius;
+};
+
+/**
+ * Inheritance of CyObject
+ */
+CyArc.prototype = new CyObject("CyArc");
+CyArc.prototype.constructor = CyArc;
+
+/**
+ * draw rectangle on the canvas-context
+ * @param ctx
+ */
+CyArc.prototype.draw = function(ctx){
+    ctx.save();
+
+    this.setDrawingAttributes(ctx);
+
+    ctx.beginPath();
+    ctx.arc(this.options.x, this.options.y, this.options.radius, this.options.startAngle, this.options.endAngle, this.options.anticlockwise);
+    ctx.closePath();
+
+    if (this.options.strokeStyle)
+        ctx.stroke();
+    if (this.options.fillStyle)
+        ctx.fill();
+
+    ctx.restore();
+};
+
 
 /**
  * CyText

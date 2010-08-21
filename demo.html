@@ -29,7 +29,11 @@ Copyright 2010 Florian Purchess
                 cy.addItem(new CyText("Cyricles",  30, 32, {font: "10px Helvetica"}));
                 cy.addItem(new CyText("Animation Framework", 31, 43, {font: "4px Arial"}));
                 cy.addItem(new CyText("for HTML5 Canvas", 31, 50, {font: "4px Arial"}));
+                arc.animate({radius: 20}, 100);
             });
+
+            var arc = new CyArc(50,50,40);
+            cy.addItem(arc);
 
             // Create a rectangle and also add it to rendering-stack
             var rectangle = new CyRect(20,20,100,100, {strokeStyle: '#000', fillStyle: '#f99'});
