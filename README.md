@@ -36,14 +36,14 @@ Please feel free to participate, test and suggest :)
 *   **Cyricles.isRendering()**
     True if rendering interval is set
 
-*   **Cyricles.addItem(item)**
-    Add an item to the rendering-stack
+*   **Cyricles.addItem(item, zOrder)**
+    Add an item to the rendering-stack and sort it by zOrder
 
-*   **Cyricles.addItemAt(item index)**
-    Add an item to the rendering-stack at position <index>
-
-*   **Cyricles.removeItem(item, index)**
+*   **Cyricles.removeItem(index)**
     Remove an item off the rendering-stack
+
+*   **Cyricles.sortStack()**
+    Sort the rendering-stack by zOrder
 
 *   **Cyricles.colorToObject(colorString)**
     Parses color- and alpha-informations out of a string (hex, rgb and rgba) into an animatable object
