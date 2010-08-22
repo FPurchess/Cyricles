@@ -221,7 +221,7 @@ Cyricles.prototype.sortStack = function() {
  * @param colorString
  */
 Cyricles.prototype.colorToObject = function(colorString) {
-    var color = {R:null, G:null, B:null, Alpha: 255};
+    var color = {R:null, G:null, B:null, Alpha: 255}, colMatch;
 
     if (colorString.charAt(0) == '#') {
         // HEX
