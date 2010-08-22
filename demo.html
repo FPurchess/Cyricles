@@ -11,7 +11,7 @@ Copyright 2010 Florian Purchess
     <title>Cyricles Demo Page</title>
     <script type="text/javascript" src="cyricles.js"></script>
     <script type="text/javascript">
-        document.ready(function() {
+        window.onload = function() {
             // Initalize canvas
             var cy = new Cyricles("canvas", {background: '#fee'});
 
@@ -41,7 +41,7 @@ Copyright 2010 Florian Purchess
             cy.addItem(rectangle);
 
             cy.startRender(cy);
-        });
+        };
     </script>
 </head>
 <body>

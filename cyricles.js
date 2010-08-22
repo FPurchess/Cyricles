@@ -1,45 +1,9 @@
 /**
- * document.ready currently sponsored by snipplr.com :)
- * @copyright http://snipplr.com/view/6156/documentready/
- */
-(function () {
-    var ie = !!(window.attachEvent && !window.opera);
-    var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && (RegExp.$1 < 525);
-    var fn = [];
-    var run = function () {
-        for (var i = 0; i < fn.length; i++) fn[i]();
-    };
-    var d = document;
-    d.ready = function (f) {
-        if (!ie && !wk && d.addEventListener)
-            return d.addEventListener('DOMContentLoaded', f, false);
-        if (fn.push(f) > 1) return;
-        if (ie)
-            (function () {
-                try {
-                    d.documentElement.doScroll('left');
-                    run();
-                }
-                catch (err) {
-                    setTimeout(arguments.callee, 0);
-                }
-            })();
-        else if (wk)
-            var t = setInterval(function () {
-                if (/^(loaded|complete)$/.test(d.readyState))
-                    clearInterval(t),run();
-            }, 0);
-    };
-})();
-
-//@TODO implement own ready-method
-
-/**
  * just for testing-purpose
  */
 DEBUG_LEVEL = true;
 debug = function(arg) {
-    if (DEBUG_LEVEL && console != undefined)
+    if (DEBUG_LEVEL && typeof(console) != "undefined")
         console.info(arg);
 };
 
@@ -183,7 +147,7 @@ Cyricles.prototype.isRendering = function(){
 Cyricles.prototype.addItem = function(item, zOrder) {
     if (zOrder == undefined) {
         if (item.zOrder == undefined) {
-            var zOrder = 0;
+            zOrder = 0;
 
             if (this.items.length)
                 zOrder = this.items[this.items.length - 1].zOrder + 1;
