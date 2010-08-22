@@ -181,16 +181,17 @@ Cyricles.prototype.isRendering = function(){
  * @param item
  */
 Cyricles.prototype.addItem = function(item, zOrder) {
-    if (zOrder != undefined) {
-        item.zOrder = zOrder;
-        debug('ads');
-    } else if (item.zOrder == undefined) {
-        var zOrder = 0;
+    if (zOrder == undefined) {
+        if (item.zOrder == undefined) {
+            var zOrder = 0;
 
-        if (this.items.length)
-            zOrder = this.items[this.items.length - 1].zOrder + 1;
-        
-        item.zOrder = zOrder;   
+            if (this.items.length)
+                zOrder = this.items[this.items.length - 1].zOrder + 1;
+
+            item.zOrder = zOrder;
+        }
+    } else {
+        item.zOrder = zOrder;
     }
 
     this.items.push(item);
@@ -213,7 +214,7 @@ Cyricles.prototype.removeItem = function(index) {
  */
 Cyricles.prototype.sortStack = function() {
     this.items.sort(function(a,b){return a.zOrder - b.zOrder;})
-}
+};
 
 /**
  * Convert a string containing color-informations into an animatable object
@@ -434,8 +435,11 @@ CyTransformation.prototype.draw = function(ctx) {
  * @param options
  */
 CyRect = function(x, y, width, height, options) {
-    CyObject.call(this, "CyRect");
-    this.options = Cyricles.extend({strokeStyle: false, fillStyle: false}, options);
+    this.options = Cyricles.extend({
+        strokeStyle: false,
+        fillStyle: false
+    }, options);
+    
     this.options.x = x;
     this.options.y = y;
     this.options.width = width;
@@ -480,13 +484,17 @@ CyRect.prototype.draw = function(ctx){
  *
  * @param x
  * @param y
- * @param width
- * @param height
  * @param options
  */
 CyArc = function(x, y, radius, options) {
-    CyObject.call(this, "CyRect");
-    this.options = Cyricles.extend({strokeStyle: '#000', fillStyle: '#fff', startAngle: 0, endAngle: Math.PI*2, anticlockwise: false}, options);
+    this.options = Cyricles.extend({
+        strokeStyle: '#000',
+        fillStyle: '#fff',
+        startAngle: 0,
+        endAngle: Math.PI*2,
+        anticlockwise: false
+    }, options);
+    
     this.options.x = x;
     this.options.y = y;
     this.options.radius = radius;
@@ -533,8 +541,13 @@ CyArc.prototype.draw = function(ctx){
  * @param options
  */
 CyText = function(text, x, y, options) {
+    this.options = Cyricles.extend({
+        font: "10px Arial",
+        textAlign: "start",
+        fillStyle: "#000"
+    }, options);
+
     this.text = text;
-    this.options = Cyricles.extend({font: "10px Arial", textAlign: "start", fillStyle: "#000"}, options);
     this.options.x = x;
     this.options.y = y;
 };
