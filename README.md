@@ -113,15 +113,17 @@ Child of CyObject -> all CyObject-Methods are available
 
 ## TODO ##
 
-*   implement own ready-method
-
 *   improve Cyricles.extend for easy plugins
 
-*   implement color-parsing + color-animation algorithm
+*   color-animation algorithm
 
 *   implement gradient-objects
 
+*   implement collision-detection for two objects
+
 ### Done ###
+
+*   implement color-parsing
 
 *   fix array-animation-bug (e.g. transformation-scale)
 
