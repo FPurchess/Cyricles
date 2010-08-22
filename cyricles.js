@@ -180,40 +180,40 @@ Cyricles.prototype.isRendering = function(){
  * Add an item to the rendering-stack
  * @param item
  */
-Cyricles.prototype.addItem = function(item) {
-    this.items.push(item);
-};
+Cyricles.prototype.addItem = function(item, zOrder) {
+    if (zOrder != undefined) {
+        item.zOrder = zOrder;
+        debug('ads');
+    } else if (item.zOrder == undefined) {
+        var zOrder = 0;
 
-/**
- * Add an item to the rendering-stack at position <index>
- * @param item
- * @param index
- */
-Cyricles.prototype.addItemAt = function(item, index) {
-    if (index == 0) {
-        this.items.unshift(item);
-    } else if (index == this.items.length) {
-        this.items.push(item);
-    } else {
-        var tmp1 = this.items.slice(0, index),
-            tmp2 = this.items.slice(index, this.items.length);
-        tmp1.push(item);
-        this.items = tmp1.concat(tmp2);
+        if (this.items.length)
+            zOrder = this.items[this.items.length - 1].zOrder + 1;
+        
+        item.zOrder = zOrder;   
     }
 
+    this.items.push(item);
+    this.sortStack();
 };
 
 /**
  * Remove an item off the rendering-stack
- * @param item
  * @param index
  */
-Cyricles.prototype.removeItem = function(item, index) {
+Cyricles.prototype.removeItem = function(index) {
     if (index == undefined)
         this.items.pop();
     else
         delete this.items[index];
 };
+
+/**
+ * Bring the rendering-stack into the right order (zOrder)
+ */
+Cyricles.prototype.sortStack = function() {
+    this.items.sort(function(a,b){return a.zOrder - b.zOrder;})
+}
 
 /**
  * Convert a string containing color-informations into an animatable object
@@ -262,6 +262,7 @@ Cyricles.prototype.colorToObject = function(colorString) {
  */
 CyObject = function(type) {
     this.type = type;
+    this.zOrder = 0;
 };
 
 /**
