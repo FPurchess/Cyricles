@@ -119,7 +119,7 @@ Child of CyObject -> all CyObject-Methods are available
 
 *   implement gradient-objects
 
-*   implement collision-detection for two objects
+*   implement collision-detection
 
 ### Done ###
 
